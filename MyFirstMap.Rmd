@@ -1,0 +1,42 @@
+---
+date: "8/14/2020"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+### My First Leaflet Map
+
+```{r}
+library(leaflet)
+
+df <- data.frame(
+  lat= c(27.6084181, 50.3144448, 57.4480215),
+  lng = c(36.2551235, 8.7608967, -105.0202405),
+  visitors_2019 = c(3168, 8381, 548),
+  visitors_2016 = c(1962, 2586, 279),
+  popup = c("# of Arab visitors","# of European visitors","# of American visitors"),
+  stringsAsFactors = FALSE
+)
+
+df <- leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(
+    weight = 0.5,lat = df$lat, lng = df$lng, 
+    color = "blue", 
+    radius = sqrt(df$visitors_2019), 
+    label = paste(df$popup, ": ", df$visitors_2019, "thousands")) %>%
+  
+  addCircleMarkers(
+    weight = 0.5,lat = df$lat, lng = df$lng, 
+    color = "red", 
+    radius = sqrt(df$visitors_2016), 
+    label = paste(df$popup, ": ", df$visitors_2016, "thousands") ) %>%
+  
+  addLegend(labels = c("2019", "2016"), colors = c("blue","red"))
+  
+df
+```
+
+
